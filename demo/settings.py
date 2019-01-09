@@ -9,10 +9,11 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-
+# 导入系统模块
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# 项目根路径
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -23,8 +24,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'k$-r8$-$hj&%0%!!@-@)+58^oi52+f@%^4g5c$hsqql1o64kk*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
+#django框架默认开启debug模式,将来项目部署上线时需要把debug改为false
+#django框架它能为我们提供一个静态文件访问的原因是应为DEBUG为Ture,如果改为false,Django不能为我们提供静态文件的访问能力
+#django框架是一个动态业务逻辑处理框架,更倾向于业务逻辑处理,不擅长静态文家处理
+
 DEBUG = True
 
+# 允许那些域名访问Djano后端服务
 ALLOWED_HOSTS = []
 
 
@@ -39,9 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'users.apps.UsersConfig',
+    'users.apps.UsersConfig',#注册子ingyong
+    'request_response.apps.RequestResponseConfig',
 
-]
+]#中间配置项(类似于flask中的请求钩子)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,9 +60,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+#工程入口
 ROOT_URLCONF = 'demo.urls'
 
+# 模板配置项
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -71,12 +80,14 @@ TEMPLATES = [
     },
 ]
 
+# 生产环境工程启动入口
 WSGI_APPLICATION = 'demo.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# 数据库配置象
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -88,6 +99,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
+# 密码配置向
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -107,9 +119,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
+# 语言本地化,默认英语   zh-hans
 LANGUAGE_CODE = 'en-us'
 
+#时区  默认时间
 TIME_ZONE = 'UTC'
+
 
 USE_I18N = True
 
@@ -121,4 +136,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+# 默认静态文件访问的前缀
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR,'static'),
+
+]
