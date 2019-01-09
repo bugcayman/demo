@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^query_par/$',views.query_par),
     url(r'^get_body_form/$',views.get_body_form),
     url(r'^get_body/$',views.get_body),
+    url(r'^get_body_body/$',views.get_body_body),
 ]

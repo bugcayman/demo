@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+import json
+
+
 # Create your views here.
 def weather(request,city,year):
     print(city)
@@ -40,3 +43,12 @@ def get_body(request):
     print(b)
     print(list)
     return HttpResponse('OK')
+
+def get_body_body(request):
+    """提取请求体json数据"""
+    json_str_bytes = request.body
+    json_str = json_str_bytes.decode()
+    json_data = json.loads(json_str)
+    print(json_data['a'])
+    print(json_data['b'])
+    return HttpResponse('你好')
