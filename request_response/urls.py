@@ -11,4 +11,6 @@ urlpatterns = [
     url(r'^get_body_form/$',views.get_body_form),
     url(r'^get_body/$',views.get_body),
     url(r'^get_body_body/$',views.get_body_body),
+    url(r'^redirect_demo/$',views.redirect_demo,name='index'),
+    url(r'^cookie_demo/$',views.cookie_demo),
 ]

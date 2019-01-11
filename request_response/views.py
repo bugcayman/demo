@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,reverse,redirect
 from django.http import HttpResponse
 import json
 
@@ -52,3 +52,17 @@ def get_body_body(request):
     print(json_data['a'])
     print(json_data['b'])
     return HttpResponse('你好')
+
+def redirect_demo(request):
+
+
+
+    return redirect(reverse('users:index'))
+
+def cookie_demo(request):
+    """掩饰cookie操作"""
+    response = HttpResponse('cookie_demo')
+    response.set_cookie("name","chaoge",60*60)#设置key和value都必须是字符串类型
+    print(request.COOKIES.get('name'))
+
+    return response

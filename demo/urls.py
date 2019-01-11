@@ -21,7 +21,7 @@ urlpatterns = [
     # url(r'^users/', include('users.urls'))
 #     只在总路由写
 #     url(r'^users/index/$', index)
-    url(r'^',include('users.urls')),
-    url(r'^', include('request_response.urls'))
+    url(r'^',include('users.urls',namespace='users')),
+    url(r'^', include('request_response.urls',namespace='request_response'))
 
 ]
