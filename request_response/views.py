@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render,reverse,redirect
+from django.http import HttpResponse, HttpResponseBadRequest,JsonResponse
 import json
 
 
@@ -42,13 +42,46 @@ def get_body(request):
     print(a)
     print(b)
     print(list)
+
     return HttpResponse('OK')
 
-def get_body_body(request):
+def get_body_non_form(request):
     """提取请求体json数据"""
     json_str_bytes = request.body
     json_str = json_str_bytes.decode()
     json_data = json.loads(json_str)
-    print(json_data['a'])
-    print(json_data['b'])
+
+
+    print(json_data)
+    print(request.user)
+
     return HttpResponse('你好')
+
+def get_headers(request):
+    print(request.META['CONTENT_TYPE'])
+    return HttpResponse('OK')
+
+def response_demo(request):
+
+
+    # return HttpResponse(content="nihao",content_type="text/html",status=200)
+    response = HttpResponse('python')
+    response['it'] = 'haha'
+    # HttpResponseBadRequest
+    return response
+
+def json_response_demo(request):
+    """演示json"""
+    # dict_json = {'name':'zs','age':18}
+    json_list1 = [{'name':'zs','age':18},{'name':'zs','age':18}]
+
+    # 如果用JsonResponse响应的不是一个字典时,需要设置safe=False
+    return JsonResponse(json_list1,safe=False)
+
+
+
+def redirect_demo(request):
+    #反响解析:通过视图找路由
+    #正像解析:通过路由找视图
+    print(reverse('request_response:index'))
+    return HttpResponse('redirect_demo')

@@ -2,11 +2,10 @@
 from django.conf.urls import url,include
 from . import views
 
+app_name = "users"
 urlpatterns = [
     #共两个参数(url正则,视图函数名)
     # url(r'^index/$', views.index),
 
-    url(r'users/index/$', views.index),
-
-
+    url(r'users/index/$', views.index,name='index'),
 ]
