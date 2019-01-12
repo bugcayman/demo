@@ -19,5 +19,6 @@ from django.shortcuts import render,reverse
 """
 def index(request):
 
-    print(reverse('index'))
+    reverse('users:index')
+
     return HttpResponse('hello world')

@@ -19,9 +19,9 @@ from django.contrib import admin
 urlpatterns = (
     url(r'^admin/', admin.site.urls),
     # url(r'^users/', include('users.urls'))
+
     #     只在总路由写
     #     url(r'^users/index/$', index)
     url(r'^', include('users.urls',)),
     url(r'^', include('request_response.urls', namespace='request_response'))
-
 )

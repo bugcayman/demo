@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'users.apps.UsersConfig',#注册子ingyong
+    'users.apps.UsersConfig',#注册子应用
     'request_response.apps.RequestResponseConfig',
 
 ]#中间配置项(类似于flask中的请求钩子)
@@ -144,5 +144,15 @@ STATICFILES_DIRS = [
 
 ]
 
-
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
 

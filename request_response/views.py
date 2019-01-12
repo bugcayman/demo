@@ -1,5 +1,7 @@
 from django.shortcuts import render,reverse,redirect
+
 from django.http import HttpResponse, HttpResponseBadRequest,JsonResponse
+
 import json
 
 
@@ -85,3 +87,13 @@ def redirect_demo(request):
     #正像解析:通过路由找视图
     print(reverse('request_response:index'))
     return HttpResponse('redirect_demo')
+
+
+def cookie_demo(request):
+    """掩饰cookie操作"""
+    response = HttpResponse('cookie_demo')
+    response.set_cookie("name","chaoge",60*60)#设置key和value都必须是字符串类型
+    print(request.COOKIES.get('name'))
+
+    return response
+
