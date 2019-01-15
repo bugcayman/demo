@@ -45,14 +45,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework',
     # 如果子应用中需要用模型迁移建表,必须注册子应用,如果子应用中也是用了'模板'也需要注册.
     #如果子应用中只和视图路由相关,子应用可以不注册
 
     'users.apps.UsersConfig',#注册子应用
     'request_response.apps.RequestResponseConfig',
     'booktest.apps.BooktestConfig',
-]#中间配置项(类似于flask中的请求钩子)
-
+]
+#中间配置项(类似于flask中的请求钩子)
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

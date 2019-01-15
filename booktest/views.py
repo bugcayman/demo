@@ -63,52 +63,103 @@ import json
 # BookInfo.objects.exclude(id=3)
 from datetime import datetime
 
+
 class BooksAPIView(View):
-
-
-
-    def get(self,request):
-        """查询所有图书"""
-        queryset = BookInfo.objects.all()
+    """
+    查询所有图书、增加图书
+    """
+    def get(self, request):
+        """
+        查询所有图书
+        路由：GET /books/
+        """
+        books = BookInfo.objects.all()
         book_list = []
-        for book in queryset:
-            book_list.append({
+        for book in books:
+            book_dict = {
                 'id': book.id,
                 'btitle': book.btitle,
                 'bpub_date': book.bpub_date,
                 'bread': book.bread,
-                'bcomment':book.bcomment,
+                'bcomment': book.bcomment,
                 'image': book.image.url if book.image else ''
-            })
-        return JsonResponse(book_list,safe=False)
+            }
+            book_list.append(book_dict)
+        return JsonResponse(book_list, safe=False)
+
 
     def post(self,request):
-        """
-        新增图书
-        路由:POST /books/
-        """
+
+        """新增一本书"""
         json_bytes = request.body
         json_str = json_bytes.decode()
-        book_dirc = json.loads(json_str)
+        book_dict = json.loads(json_str)
+
         book = BookInfo.objects.create(
-            btitle=book_dirc.get('btitle'),
-            bpub_date=datetime.strptime(book_dirc.get('bpub_date'),'%Y-%m_%d')
-
+            btitle=book_dict.get('btitle'),
+            bpub_date=datetime.strptime(book_dict.get('bpub_date'),'%Y-%m-%d').date()
         )
-        return JsonResponse({
-            'id':book.id,
-            'btitle':book.btitle,
-            'bpub_date':book.bpub_date,
-            'bread':book.bread,
-            'bcomment':book.bcomment,
-            'image':book.image.url if book.image else ''
-        },status=201)
-class BookAPIView(View):
+        book_dict = {
+            'id': book.id,
+            'btitle': book.btitle,
+            'bpub_date': book.bpub_date,
+            'bread': book.bread,
+            'bcomment': book.bcomment,
+            # 'image': book.image.url if book.image else ''
+        }
+        return JsonResponse(book_dict)
 
-
+class BooksView(View):
 
     def get(self,request,pk):
-        """
-        获取单个图书星系
-        路由:get /books/<pk>/
-        """
+
+        try:
+            book = BookInfo.objects.get(id=pk)
+        except BookInfo.DoesNotExist:
+           return HttpResponse({'error'},status=404)
+        book_dict = {
+            'id': book.id,
+            'btitle': book.btitle,
+            'bpub_date': book.bpub_date,
+            'bread': book.bread,
+            'bcomment': book.bcomment,
+            # 'image': book.image.url if book.image else ''
+        }
+        # 响应
+        return JsonResponse(book_dict)
+
+    def delete(self,request,pk):
+        try:
+            book = BookInfo.objects.get(id=pk).delete()
+        except BookInfo.DoesNotExist:
+            return HttpResponse(status=404)
+
+
+        return HttpResponse(book)
+
+    def put(self,request,pk):
+        """修改指定书籍"""
+        json_str_bytes = request.body
+        json_str = json_str_bytes.decode()
+        json_dict = json.loads(json_str)
+        try:
+            book = BookInfo.objects.get(id=pk)
+        except BookInfo.DoesNotExist:
+            return HttpResponse({'不存在'},status=404)
+
+
+        #修改模型对象
+        book.btitle = json_dict['btitle']
+        book.bpub_date = json_dict['bpub_date']
+        book.bread = json_dict.get('bread', book.bread)
+        book.save()
+        book_dict = {
+            'id': book.id,
+            'btitle': book.btitle,
+            'bpub_date': book.bpub_date,
+            'bread': book.bread,
+            'bcomment': book.bcomment,
+            # 'image': book.image.url if book.image else ''
+        }
+        return JsonResponse(book_dict)
+
