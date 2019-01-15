@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 如果子应用中需要用模型迁移建表,必须注册子应用,如果子应用中也是用了'模板'也需要注册.
+    #如果子应用中只和视图路由相关,子应用可以不注册
 
     'users.apps.UsersConfig',#注册子应用
     'request_response.apps.RequestResponseConfig',
