@@ -1,9 +1,14 @@
 from django.shortcuts import render
 # Create your views here.
-from booktest.models import BookInfo,HeroInfo
+import json
 from django.views import View
 from django.http import HttpResponse,JsonResponse
-import json
+from rest_framework.viewsets import ModelViewSet
+from .serializers import BookInfoSerializer
+from booktest.models import BookInfo
+
+
+
 # book = BookInfo()
 # book.btitle='西游记'
 # book.bpub_date='1988-1-1'
@@ -163,3 +168,6 @@ class BooksView(View):
         }
         return JsonResponse(book_dict)
 
+class BookInfoViewSet(ModelViewSet):
+    queryset = BookInfo.objects.all()
+    serializer_class = BookInfoSerializer
